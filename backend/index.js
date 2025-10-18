@@ -267,16 +267,21 @@ app.patch('/api/requests/:id', printerAuth, async (req, res) => {
         const status = action === 'accept' ? 'Accepted' : 'Rejected';
         const handler = req.printer.slack_id;
         const handledAt = new Date().toISOString();
+        const completedDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format for Airtable Date field
 
         if (process.env.AIRTABLE_REQUESTS_TABLE_ID) {
             // Update Airtable record
             try {
                 const fields = {
                     Status: status,
-                    HandlerSlackID: handler,
-                    HandlerName: req.printer.name || null,
-                    HandledAt: handledAt,
                 };
+                
+                // If accepting, set AcceptedBy and CompletedAt
+                if (action === 'accept') {
+                    fields.AcceptedBy = handler;
+                    fields.CompletedAt = completedDate; // Date format YYYY-MM-DD
+                }
+                
                 if (admin_notes) fields.AdminNotes = admin_notes;
 
                 const updated = await base(process.env.AIRTABLE_REQUESTS_TABLE_ID).update([
