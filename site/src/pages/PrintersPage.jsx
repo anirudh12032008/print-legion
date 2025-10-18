@@ -31,8 +31,13 @@ export default function PrintersPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 w-full">
-    <div className="my-6">
-        <a href="/" className="outline-1 py-2 px-6 rounded-2xl text-xl font-bold">back</a>
+    <div className="my-6 flex items-center justify-between">
+        <div>
+          <a href="/" className="outline-1 py-2 px-6 rounded-2xl text-xl font-bold">back</a>
+        </div>
+        <div>
+          <a href="/request" className="outline-1 py-2 px-6 rounded-2xl text-xl font-bold bg-green-600 text-white">Request a print</a>
+        </div>
     </div>
       <h1 className="text-2xl mb-6">The printers!!</h1>
       <div className="text-xl space-y-4 mb-6">
